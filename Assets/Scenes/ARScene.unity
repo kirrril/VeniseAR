@@ -2090,6 +2090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0879d196dd135474c8cedcd8a5dc93d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonsManager
+  arSession: {fileID: 2135343322}
 --- !u!1001 &1458192738207724067
 PrefabInstance:
   m_ObjectHideFlags: 0
