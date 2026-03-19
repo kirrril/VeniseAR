@@ -40,57 +40,62 @@ public class TargetHandler : MonoBehaviour
     {
         foreach (var img in args.added.ToList())
         {
-            // if (img.trackingState != TrackingState.Tracking) continue;
-
-
-            string key = img.referenceImage.guid.ToString();
-            if (placed.Contains(key)) continue;
-
-            await Task.Delay(200);
-
-            var result = await anchorManager.TryAddAnchorAsync(img.pose);
-            if (!result.status.IsSuccess()) continue;
-
-            ARAnchor anchor = result.value;
-            imageAnchors[key] = anchor;
-
-            Debug.Log("Image position : " + img.transform.position);
-            Debug.Log("Ancre créée à : " + anchor.transform.position);
-
-            GameObject content = GetContent(img.referenceImage.name);
-            if (content == null) continue;
-
-            content.transform.SetParent(anchor.transform, false);
-            content.transform.localPosition = new Vector3(0, 0f, 0);
-            content.transform.localRotation = Quaternion.Euler(0, 0, 0);
-
-#if UNITY_ANDROID || UNITY_IOS
-            Handheld.Vibrate();
-#endif
-
-            content.SetActive(true);
-
-            placed.Add(key);
+            await TryPlaceAnchorAndContent(img);
         }
 
-        foreach (var img in args.updated)
+        foreach (var img in args.updated.ToList())
         {
             string key = img.referenceImage.guid.ToString();
             if (!placed.Contains(key)) continue;
 
-            if (TryGetAnchorForImage(key, out ARAnchor anchor))
-            {
-                anchor.transform.position = img.transform.position;
-                anchor.transform.rotation = img.transform.rotation;
-            }
+            AjustAnchor(key, img.transform.position, img.transform.rotation);
         }
     }
 
-    private bool TryGetAnchorForImage(string key, out ARAnchor anchor)
+    private async Task TryPlaceAnchorAndContent(ARTrackedImage img)
+    {
+        if (img == null) return;
+
+        string key = img.referenceImage.guid.ToString();
+        if (placed.Contains(key)) return;
+
+        await Task.Delay(200);
+
+        var result = await anchorManager.TryAddAnchorAsync(img.pose);
+        if (!result.status.IsSuccess()) return;
+
+        ARAnchor anchor = result.value;
+        if (anchor == null) return;
+        imageAnchors[key] = anchor;
+
+        Debug.Log("Image position: " + img.transform.position);
+        Debug.Log("Anchor created at: " + anchor.transform.position);
+
+
+        bool contentPlaced = PlaceContent(img.referenceImage.name, anchor.transform);
+        if (!contentPlaced) return;
+
+#if UNITY_ANDROID || UNITY_IOS
+        Handheld.Vibrate();
+#endif
+
+        placed.Add(key);
+    }
+
+    private bool TryGetAnchorForContent(string key, out ARAnchor anchor)
     {
         if (imageAnchors.TryGetValue(key, out anchor)) return true;
         anchor = null;
         return false;
+    }
+
+    private void AjustAnchor(string key, Vector3 position, Quaternion rotation)
+    {
+        if (TryGetAnchorForContent(key, out ARAnchor anchor))
+        {
+            anchor.transform.position = position;
+            anchor.transform.rotation = rotation;
+        }
     }
 
     private GameObject GetContent(string name)
@@ -106,5 +111,17 @@ public class TargetHandler : MonoBehaviour
             default:
                 return null;
         }
+    }
+
+    private bool PlaceContent(string targetImageName, Transform anchorTransform)
+    {
+        GameObject content = GetContent(targetImageName);
+        if (content == null) return false;
+
+        content.transform.SetParent(anchorTransform, false);
+        content.transform.localPosition = Vector3.zero;
+        content.transform.localRotation = Quaternion.identity;
+        content.SetActive(true);
+        return true;
     }
 }
