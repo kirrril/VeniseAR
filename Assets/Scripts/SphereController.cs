@@ -3,21 +3,27 @@ using UnityEngine;
 public class SphereController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private GameObject dust;
+    [SerializeField] private ParticleSystem dust;
+    [SerializeField] private ParticleSystem dust2;
+    // [SerializeField] private GameObject canvas;
 
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        float distance = Vector3.Distance(transform.position, Camera.main.transform.position);
+        if (!other.CompareTag("Player")) return;
 
-        if (distance < 1.8f)
-        {
-            animator.SetBool("isBouncing", true);
-            dust.SetActive(true);
-        }
-        else
-        {
-            animator.SetBool("isBouncing", false);
-            dust.SetActive(false);
-        }
+        animator.SetBool("isBouncing", true);
+        dust.Play();
+        dust2.Play();
+        // canvas.SetActive(true);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        animator.SetBool("isBouncing", false);
+        dust.Stop();
+        dust2.Stop();
+        // canvas.SetActive(false);
     }
 }
