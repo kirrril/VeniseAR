@@ -146,10 +146,10 @@ PlayerSettings:
   tvOSBundleVersion: 1.0
   bundleVersion: 11.4.4
   preloadedAssets:
-  - {fileID: 2688964179452341714, guid: 5c725238dfcc5b24cabbf0b194de3653, type: 2}
-  - {fileID: 11400000, guid: 324116329e9aaeb4dac3d865efce8740, type: 2}
   - {fileID: 4800000, guid: c9f956787b1d945e7b36e0516201fc76, type: 3}
   - {fileID: 4800000, guid: 0945859e5a1034c2cb6dce53cb4fb899, type: 3}
+  - {fileID: 2688964179452341714, guid: 5c725238dfcc5b24cabbf0b194de3653, type: 2}
+  - {fileID: 11400000, guid: 324116329e9aaeb4dac3d865efce8740, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -172,8 +172,8 @@ PlayerSettings:
   androidMinAspectRatio: 1
   applicationIdentifier:
     Android: com.DefaultCompany.Venise_AR_4
-    Lumin: com.PTCInc.VuforiaEngine
-    Standalone: com.PTCInc.VuforiaEngine
+    Lumin: com.DefaultCompany.Venise_AR_4
+    Standalone: com.DefaultCompany.Venise_AR_4
     iPhone: com.DefaultCompany.Venise-AR-4
   buildNumber:
     Standalone: 0
@@ -895,9 +895,9 @@ PlayerSettings:
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
   scriptingDefineSymbols:
-    Android: VUFORIA_ANDROID_SETTINGS
-    Windows Store Apps: VUFORIA_WSA_SETTINGS
-    iPhone: VUFORIA_IOS_SETTINGS;UNITY_XR_ARKIT_LOADER_ENABLED
+    Android: 
+    Windows Store Apps: 
+    iPhone: UNITY_XR_ARKIT_LOADER_ENABLED
   additionalCompilerArguments: {}
   platformArchitecture:
     iPhone: 1
@@ -945,8 +945,8 @@ PlayerSettings:
   metroPackageVersion: 11.4.4.0
   metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: Vuforia
-  metroCertificateIssuer: Vuforia
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
   metroCertificateNotAfter: 80a428773e1cd501
   metroApplicationDescription: Venise_AR_4
   wsaImages:
@@ -979,7 +979,7 @@ PlayerSettings:
     2293910: Assets/Common/Icons/UWP/Wide310x150Logo.scale-150.png
     2293960: Assets/Common/Icons/UWP/Wide310x150Logo.scale-200.png
     2294160: Assets/Common/Icons/UWP/Wide310x150Logo.scale-400.png
-  metroTileShortName: Vuforia Engine
+  metroTileShortName: Venise_AR_4
   metroTileShowName: 0
   metroMediumTileShowName: 1
   metroLargeTileShowName: 0
@@ -994,7 +994,7 @@ PlayerSettings:
   syncCapabilities: 0
   platformCapabilities:
     WindowsStoreApps:
-      CodeGeneration: False
+      EnterpriseAuthentication: False
       OfflineMapsManagement: False
       HumanInterfaceDevice: False
       Location: False
@@ -1027,10 +1027,10 @@ PlayerSettings:
       PointOfService: False
       RecordedCallsFolder: False
       Contacts: False
-      Proximity: False
       InternetClient: True
+      CodeGeneration: False
       BackgroundMediaPlayback: False
-      EnterpriseAuthentication: False
+      Proximity: False
   metroTargetDeviceFamilies:
     Desktop: False
     Holographic: False
