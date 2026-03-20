@@ -4,16 +4,16 @@ using UnityEngine;
 public class Raycast : MonoBehaviour
 {
     public event Action<GameObject> SelectionChanged;
-
     private GameObject current;
+    [SerializeField] private LayerMask raycastLayerMask;
 
     void Update()
     {
         GameObject next = null;
 
-        if (Physics.Raycast(transform.position, transform.forward, out var hit, 10f))
+        if (Physics.Raycast(transform.position, transform.forward, out var hit, 10f, raycastLayerMask))
         {
-            next = hit.collider.transform.gameObject;
+            next = hit.collider.transform.parent.gameObject;
         }
 
         if (next == current) return;

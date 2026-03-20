@@ -24,6 +24,9 @@ Ces instructions s'appliquent a tout le projet `Venise_AR_4` (racine du repo).
   - `Assets/Scripts/ButtonsManager.cs`
   - `Assets/Scripts/AR_UI_manager.cs`
   - `Assets/Scripts/Raycast.cs`
+  - `Assets/Scripts/SphereController.cs`
+  - `Assets/Scripts/RectangleController.cs`
+  - `Assets/Scripts/ShowerController.cs`
 
 ## Regle de collaboration (obligatoire)
 
@@ -37,6 +40,7 @@ Ces instructions s'appliquent a tout le projet `Venise_AR_4` (racine du repo).
 2. Robustesse runtime (null checks, eviter exceptions en session).
 3. Preserver l'existant qui fonctionne (pas de refactor large sans besoin).
 4. Maintenir la compatibilite des scenes non AR (`EntryScene`, `TargetScene`).
+5. Garantir une qualite mobile compatible skinned mesh (eviter profils trop bas pour les armatures).
 
 ## Regles de modification
 
@@ -52,7 +56,9 @@ Ces instructions s'appliquent a tout le projet `Venise_AR_4` (racine du repo).
    - premier lancement AR,
    - retour `EntryScene` -> `ARScene`,
    - detection target et affichage content,
-   - absence d'erreur Console.
+   - absence d'erreur Console,
+   - coherence visuelle des meshes skinnes (ex: `RectangularSculpture`),
+   - filtrage raycast correct via layer dedie.
 
 ## Communication
 
