@@ -21,6 +21,7 @@ Ces instructions s'appliquent a tout le projet `Venise_AR_4` (racine du repo).
   - `Assets/Scenes/ARScene.unity`
 - Scripts AR/UI cles:
   - `Assets/Scripts/TargetHandler.cs`
+  - `Assets/Scripts/ScaleAdjustment.cs`
   - `Assets/Scripts/ButtonsManager.cs`
   - `Assets/Scripts/AR_UI_manager.cs`
   - `Assets/Scripts/Raycast.cs`

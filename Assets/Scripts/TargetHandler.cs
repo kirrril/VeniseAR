@@ -13,6 +13,7 @@ public class TargetHandler : MonoBehaviour
     [SerializeField] GameObject sphereSculpture;
     [SerializeField] GameObject rectangularSculpture;
     [SerializeField] GameObject showerSculpture;
+    [SerializeField] ScaleAdjustment scaleAdjstment;
     private HashSet<string> placed = new();
     private Dictionary<string, ARAnchor> imageAnchors = new();
 
@@ -48,7 +49,7 @@ public class TargetHandler : MonoBehaviour
             string key = img.referenceImage.guid.ToString();
             if (!placed.Contains(key)) continue;
 
-            AjustAnchor(key, img.transform.position, img.transform.rotation);
+            AdjustAnchor(key, img.transform.position, img.transform.rotation);
         }
     }
 
@@ -89,7 +90,7 @@ public class TargetHandler : MonoBehaviour
         return false;
     }
 
-    private void AjustAnchor(string key, Vector3 position, Quaternion rotation)
+    private void AdjustAnchor(string key, Vector3 position, Quaternion rotation)
     {
         if (TryGetAnchorForContent(key, out ARAnchor anchor))
         {
@@ -121,6 +122,16 @@ public class TargetHandler : MonoBehaviour
         content.transform.SetParent(anchorTransform, false);
         content.transform.localPosition = Vector3.zero;
         content.transform.localRotation = Quaternion.identity;
+
+        if (scaleAdjstment != null)
+        {
+            scaleAdjstment.ApplyPersistedScale(content);
+        }
+        else
+        {
+            content.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        }
+
         content.SetActive(true);
         return true;
     }

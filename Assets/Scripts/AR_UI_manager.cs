@@ -7,9 +7,9 @@ public class AR_UI_manager : MonoBehaviour
     [SerializeField] private Raycast raycast;
     [SerializeField] private GameObject contentMenu;
     [SerializeField] private GameObject closeSceneButton;
-    [SerializeField] private GameObject contentMenuButton;
-    [SerializeField] private GameObject closeContentMenuButton;
-    [SerializeField] private GameObject contentText;
+    [SerializeField] private GameObject burgerButton;
+    [SerializeField] private GameObject burgerContent;
+    [SerializeField] private GameObject closeBurgerButton;
     [SerializeField] private TMP_Text title;
     [SerializeField] private TMP_Text artist;
     [SerializeField] private TMP_Text year;
@@ -21,12 +21,12 @@ public class AR_UI_manager : MonoBehaviour
 
     void OnEnable()
     {
-        raycast.SelectionChanged += HandleContentCommands;
+        raycast.SelectionChanged += BurgerOn;
     }
 
     void OnDisable()
     {
-        raycast.SelectionChanged -= HandleContentCommands;
+        raycast.SelectionChanged -= BurgerOn;
     }
 
     void Start()
@@ -35,17 +35,16 @@ public class AR_UI_manager : MonoBehaviour
         contentMenu.SetActive(false);
     }
 
-    private void HandleContentCommands(GameObject content)
+    private void BurgerOn(GameObject content)
     {
         if (content == null)
         {
             contentMenu.SetActive(false);
-            closeSceneButton.SetActive(true);
             return;
         }
         contentMenu.SetActive(true);
-        contentMenuButton.SetActive(true);
-        contentText.SetActive(false);
+        burgerButton.SetActive(true);
+        burgerContent.SetActive(false);
         titleText = GetTitle(content.name);
         artistText = GetArtist(content.name);
         yearText = GetYear(content.name);
@@ -112,23 +111,21 @@ public class AR_UI_manager : MonoBehaviour
         }
     }
 
-    public void OnContentMenuButtonClick()
+    public void OnBurgerClick()
     {
-        closeSceneButton.SetActive(false);
-        contentMenuButton.SetActive(false);
-        closeContentMenuButton.SetActive(true);
-        contentText.SetActive(true);
+        burgerButton.SetActive(false);
+        closeBurgerButton.SetActive(true);
+        burgerContent.SetActive(true);
         title.text = titleText;
         artist.text = artistText;
         year.text = yearText;
         dimensions.text = dimensionsText;
     }
 
-    public void OnCloseContentMenuButtonClick()
+    public void OnCloseBurgerClick()
     {
-        closeSceneButton.SetActive(true);
-        contentMenuButton.SetActive(true);
-        closeContentMenuButton.SetActive(false);
-        contentText.SetActive(false);
+        burgerButton.SetActive(true);
+        closeBurgerButton.SetActive(false);
+        burgerContent.SetActive(false);
     }
 }
