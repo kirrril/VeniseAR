@@ -19,11 +19,14 @@ Ces instructions s'appliquent a tout le projet `Venise_AR_4` (racine du repo).
   - `Assets/Scenes/EntryScene.unity`
   - `Assets/Scenes/TargetScene.unity`
   - `Assets/Scenes/ARScene.unity`
+- Note EntryScene:
+  - `EntryScene` peut fonctionner en mode decor immersif gyro hors XR Origin (camera racine pilotee par `GyroCamera`).
 - Scripts AR/UI cles:
   - `Assets/Scripts/TargetHandler.cs`
   - `Assets/Scripts/ScaleAdjustment.cs`
   - `Assets/Scripts/ButtonsManager.cs`
   - `Assets/Scripts/AR_UI_manager.cs`
+  - `Assets/Scripts/GyroCamera.cs`
   - `Assets/Scripts/Raycast.cs`
   - `Assets/Scripts/SphereController.cs`
   - `Assets/Scripts/RectangleController.cs`

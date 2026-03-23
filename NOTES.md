@@ -1,6 +1,6 @@
 # NOTES.md - Venise_AR_4
 
-Date de mise a jour: 2026-03-22
+Date de mise a jour: 2026-03-23
 
 ## Etat actuel
 
@@ -9,6 +9,9 @@ Date de mise a jour: 2026-03-22
 - Le flux navigation AR est actuellement:
   - `EntryScene` -> `ARScene` via `ButtonsManager.OnStartARExperienceClick()`
   - `ARScene` -> `EntryScene` via `ButtonsManager.OnBackToMainClick()`
+- `EntryScene` utilise `GyroCamera` avec le nouveau Input System (`AttitudeSensor`) pour un decor/point de vue immersif pilote au gyroscope.
+- Fallback valide dans `GyroCamera`: si le capteur n'est pas disponible, la camera reste immobile sur `initPosition` / `initRotation`.
+- Renforcement runtime valide: `OnDisable()` protege `InputSystem.DisableDevice(...)` avec un null check sur `AttitudeSensor.current`.
 - Dans `ButtonsManager`, `arSession.Reset()` est appele avant `LoadScene("EntryScene")`.
 - `AR_UI_manager` contient un `return` defensif quand `content == null` (evite exception).
 - Le flux UI "burger + cartel" est en place et coherent avec le raycast:
@@ -62,6 +65,7 @@ Fichier: `Assets/Scripts/TargetHandler.cs`
 - Le slider reste en plage `0..1`; avec la borne minimale effective `0.1`, la zone `0..0.1` produit la meme echelle visible (comportement volontaire).
 - Le raycast suppose `hit.collider.transform.parent` comme racine content; si la hierarchie prefab change, la selection UI peut cibler le mauvais objet.
 - `closeBurgerButton` doit etre cache au repos (ou enfant de `burgerContent`) pour eviter un etat UI ambigu lors d'une nouvelle detection.
+- Disponibilite et stabilite du gyroscope peuvent varier selon device (absence capteur, bruit, drift); conserver un comportement stable sans capteur.
 
 ## Procedure de verification rapide
 
@@ -81,6 +85,10 @@ Fichier: `Assets/Scripts/TargetHandler.cs`
    - clic burger: cartel + sliders visibles,
    - perte de content au raycast: menu masque,
    - nouveau content: burger de nouveau cliquable avec infos du nouvel objet.
+10. Verifier `EntryScene` (mode gyro decoratif):
+   - sur device compatible: la camera suit l'attitude (`AttitudeSensor`),
+   - sans capteur (ou capteur indisponible): fallback immobile sur vue initiale,
+   - pas d'erreur Console a l'entree/sortie de scene (Enable/Disable).
 
 ## Prochaine etape
 
@@ -89,3 +97,5 @@ Fichier: `Assets/Scripts/TargetHandler.cs`
 3. Si besoin, forcer une qualite mobile AR explicite au demarrage (sans sur-correction).
 4. Continuer la stabilisation incrementale de `TargetHandler` seulement si un symptome reel reapparait.
 5. Consolider la passe UI actuelle (verif device + Inspector) avant toute retouche ergonomique/visuelle.
+6. Valider le ressenti gyro sur Android et iOS (fluidite, amplitude, confort visuel).
+7. Ajouter un lissage leger anti-jitter dans `GyroCamera` seulement si un symptome reel apparait.
