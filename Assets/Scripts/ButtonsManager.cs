@@ -5,9 +5,9 @@ using UnityEngine.XR.ARFoundation;
 public class ButtonsManager : MonoBehaviour
 {
     [SerializeField] private ARSession arSession;
-    public void OnOnlineGalleryClick()
+    public void OnCuratorClick()
     {
-        Application.OpenURL("https://venise.kirrril.com");
+        SceneManager.LoadScene("CuratorScene");
     }
 
     public void OnDownloadTargetsClick()

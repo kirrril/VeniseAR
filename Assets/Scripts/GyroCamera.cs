@@ -3,9 +3,9 @@ using UnityEngine.InputSystem;
 
 public class GyroCamera : MonoBehaviour
 {
-    private Vector3 initPosition = new Vector3(0, 30, 0);
-    private Vector3 initRotation = new Vector3(25, -4, 0);
-    private bool gyroAvailable;
+    [SerializeField] private Vector3 initPosition;
+    [SerializeField] private Vector3 initRotation;
+    public bool gyroAvailable;
 
     void OnEnable()
     {
