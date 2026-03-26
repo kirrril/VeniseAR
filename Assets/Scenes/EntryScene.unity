@@ -284,6 +284,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &528143861 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6315672910373539476, guid: a8641fa8dcb40ef4f9dd412ea010d658,
+    type: 3}
+  m_PrefabInstance: {fileID: 8454339677135295062}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1069399735
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,6 +1207,21 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 170
       objectReference: {fileID: 0}
+    - target: {fileID: 6238806256820987459, guid: a8641fa8dcb40ef4f9dd412ea010d658,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8454339677135295068}
+    - target: {fileID: 6238806256820987459, guid: a8641fa8dcb40ef4f9dd412ea010d658,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DownloadTargetsPdf
+      objectReference: {fileID: 0}
+    - target: {fileID: 6238806256820987459, guid: a8641fa8dcb40ef4f9dd412ea010d658,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PdfDownloadButton, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6252838257175962843, guid: a8641fa8dcb40ef4f9dd412ea010d658,
         type: 3}
       propertyPath: m_Sprite
@@ -1354,7 +1375,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 361157849}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6315672910373539476, guid: a8641fa8dcb40ef4f9dd412ea010d658,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8454339677135295068}
   m_SourcePrefab: {fileID: 100100000, guid: a8641fa8dcb40ef4f9dd412ea010d658, type: 3}
 --- !u!224 &8454339677135295063 stripped
 RectTransform:
@@ -1392,6 +1417,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0879d196dd135474c8cedcd8a5dc93d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonsManager
+--- !u!114 &8454339677135295068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528143861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02a4d1f1bc9d5b49bc4c71eee248aaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PdfDownloadButton
+  pdfUrl: https://venise.kirrril.com/VeniceTargets.pdf
+  fileName: ImageTargets.pdf
+  downloadTitle: Venise AR - Image Targets
+  downloadDescription: Telechargement du PDF des image targets
+  onDownloadStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onDownloadSucceeded:
+    m_PersistentCalls:
+      m_Calls: []
+  onDownloadFailed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

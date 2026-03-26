@@ -1,6 +1,6 @@
 # NOTES.md - Venise_AR_4
 
-Date de mise a jour: 2026-03-23
+Date de mise a jour: 2026-03-26
 
 ## Etat actuel
 
@@ -32,6 +32,19 @@ Date de mise a jour: 2026-03-23
   - Si la cle n'existe pas, elle est creee avec la valeur par defaut `0.5f`.
   - Le slider est synchronise sans boucle d'evenements via `SetValueWithoutNotify(...)`.
   - Une borne minimale effective `0.1f` est appliquee pour eviter un content invisible.
+- `CuratorScene` est en place comme scene 3D non AR avec controle mobile par gizmo UI + gyro.
+- Dans `CuratorScene`, `Main Camera` est enfant du `PlayerPrefab` (rattachee a `CameraPlace`) et porte `GyroCamera`.
+- `MoveGizmo` est une `Image` UI (raycast target actif) dans un `Canvas` screen-space avec `GraphicRaycaster`.
+- `EventSystem` de `CuratorScene` utilise `InputSystemUIInputModule`.
+- Le flux de telechargement du PDF des image targets est en place via `PdfDownloadButton`:
+  - source PDF attendue sur une URL publique HTTPS,
+  - Android: telechargement systeme via `DownloadManager` vers `Downloads`,
+  - iOS: telechargement local puis ouverture automatique de la share sheet native (`Imprimer` / `Enregistrer dans Fichiers`).
+- `PlayerController` lit `MoveGizmo.speedX/speedY`:
+  - `speedY` pour avance/recul,
+  - `speedX` pour lateral + yaw fallback sans gyro.
+- En mode gyro (`gyroIsOn`), `PlayerController.RotatePlayer()` aligne le yaw du player sur `Camera.main` via `MoveRotation`.
+- Le petit snap de yaw au chargement de `CuratorScene` est toujours observable mais considere non bloquant a ce stade.
 
 ## Etat script AR principal
 
@@ -42,6 +55,33 @@ Fichier: `Assets/Scripts/TargetHandler.cs`
 - Placement actuel volontairement non strict sur `TrackingState.Tracking` pour privilegier l'affichage rapide.
 - `placed` sert de garde simple pour eviter de replacer un meme target key.
 - L'echelle n'est plus geree dans `TargetHandler` avec une logique locale `PlayerPrefs`; le script s'appuie sur `ScaleAdjustment`.
+
+## Etat scripts CuratorScene
+
+Fichiers:
+- `Assets/Scripts/PlayerController.cs`
+- `Assets/Scripts/MoveGizmo.cs`
+- `Assets/Scripts/GyroCamera.cs`
+
+Constats:
+- `PlayerController`:
+  - assigne position/rotation initiales depuis `entryPoint` au `Start()`.
+  - ecrit `rb.linearVelocity` directement (avance/lateral selon valeurs gizmo).
+  - en gyro: yaw du player force a celui de `Camera.main` (pas de lissage dedie).
+  - sans gyro: yaw via `rb.angularVelocity` base sur `moveGizmo.speedX`.
+- `MoveGizmo`:
+  - derive `speedX/speedY` a partir du drag ecran (`Math.Clamp(..., -1, 1)`).
+  - utilise `maxDragDistance = 200f`.
+  - reset a zero sur `OnEndDrag`.
+- `GyroCamera`:
+  - active `AttitudeSensor` si disponible, fallback pose fixe sinon.
+  - applique chaque frame `GyroToUnity(attitude)` sur la rotation de la camera.
+  - expose `gyroAvailable` (etat lu par `PlayerController` au `Start()`).
+
+Structure scene:
+- `CuratorScene` ne contient plus de `CinemachineBrain` ni de `Virtual Camera`.
+- Le child `CameraTarget` du `PlayerPrefab` est desactive dans l'instance de scene.
+- Le prefab `PlayerPrefab` conserve un `PlayerInput` avec des `ActionEvents` historiques (`OnMove`, `OnLook`) alors que `PlayerController` ne depend plus de ces callbacks pour la locomotion actuelle.
 
 ## Hypotheses Inspector importantes
 
@@ -66,6 +106,10 @@ Fichier: `Assets/Scripts/TargetHandler.cs`
 - Le raycast suppose `hit.collider.transform.parent` comme racine content; si la hierarchie prefab change, la selection UI peut cibler le mauvais objet.
 - `closeBurgerButton` doit etre cache au repos (ou enfant de `burgerContent`) pour eviter un etat UI ambigu lors d'une nouvelle detection.
 - Disponibilite et stabilite du gyroscope peuvent varier selon device (absence capteur, bruit, drift); conserver un comportement stable sans capteur.
+- `CuratorScene`: leger snap yaw au chargement (initialisation gyro) encore present.
+- `CuratorScene`: `gyroIsOn` est evalue une seule fois au `Start()` dans `PlayerController` (pas de re-evaluation apres pause/reprise).
+- `MoveGizmo`: reset uniquement sur `OnEndDrag`; selon contexte UI multitouch/interruptions, une remise a zero defensive supplementaire peut etre utile.
+- `PdfDownloadButton`: la share sheet iOS n'est validable qu'en build device reel (pas dans l'Editor Unity).
 
 ## Procedure de verification rapide
 
@@ -89,6 +133,17 @@ Fichier: `Assets/Scripts/TargetHandler.cs`
    - sur device compatible: la camera suit l'attitude (`AttitudeSensor`),
    - sans capteur (ou capteur indisponible): fallback immobile sur vue initiale,
    - pas d'erreur Console a l'entree/sortie de scene (Enable/Disable).
+11. Verifier `CuratorScene`:
+   - drag `MoveGizmo` vertical -> avance/recul,
+   - drag `MoveGizmo` horizontal -> lateral + yaw fallback (sans gyro),
+   - mode gyro actif -> yaw player aligne sur camera sans mouvement parasite,
+   - relachement drag -> vitesse gizmo revient a zero,
+   - pas d'erreur Console.
+12. Verifier le telechargement des image targets:
+   - Android: clic bouton -> telechargement visible dans `Downloads`,
+   - iPhone: clic bouton -> share sheet native ouverte apres telechargement,
+   - options `Imprimer` et/ou `Enregistrer dans Fichiers` disponibles selon device/contexte,
+   - pas d'erreur Console/Xcode pendant le flux.
 
 ## Prochaine etape
 
@@ -99,3 +154,7 @@ Fichier: `Assets/Scripts/TargetHandler.cs`
 5. Consolider la passe UI actuelle (verif device + Inspector) avant toute retouche ergonomique/visuelle.
 6. Valider le ressenti gyro sur Android et iOS (fluidite, amplitude, confort visuel).
 7. Ajouter un lissage leger anti-jitter dans `GyroCamera` seulement si un symptome reel apparait.
+8. Decider si le snap yaw initial de `CuratorScene` merite un correctif (warmup/calibration) ou reste accepte.
+9. Nettoyer `PlayerController` (`using` inutiles, null checks references Inspector) quand la phase de stabilisation est terminee.
+10. Verifier si les `ActionEvents` historiques du `PlayerInput` (OnMove/OnLook) doivent etre conserves ou supprimes pour eviter ambiguite.
+11. Valider sur iPhone reel le flux `PdfDownloadButton` (share sheet, impression, sauvegarde Fichiers).

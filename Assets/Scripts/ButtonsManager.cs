@@ -22,7 +22,10 @@ public class ButtonsManager : MonoBehaviour
 
     public void OnBackToMainClick()
     {
-        arSession.Reset();
+        if (SceneManager.GetActiveScene().name == "ARScene" && arSession != null)
+        {
+            arSession.Reset();
+        }
         SceneManager.LoadScene("EntryScene");
     }
 }
