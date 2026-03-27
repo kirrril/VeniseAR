@@ -1,6 +1,6 @@
 # NOTES.md - Venise_AR_4
 
-Date de mise a jour: 2026-03-26
+Date de mise a jour: 2026-03-27
 
 ## Etat actuel
 
@@ -54,6 +54,12 @@ Date de mise a jour: 2026-03-26
   - Si la cle n'existe pas, elle est creee avec la valeur par defaut `0.5f`.
   - Le slider est synchronise sans boucle d'evenements via `SetValueWithoutNotify(...)`.
   - Une borne minimale effective `0.1f` est appliquee pour eviter un content invisible.
+- Le placement AR de `TargetHandler` a ete ajuste pour les image targets posees a plat:
+  - l'ancre est creee avec la position de `img.pose.position`,
+  - la rotation n'utilise plus directement `img.pose.rotation`,
+  - une rotation "upright" est reconstruite via `Vector3.up` (repere monde AR) + yaw projete depuis l'image trackee,
+  - le content reste vertical tout en conservant le yaw de la target physique,
+  - le snapping observe precedemment n'est plus reproduit dans ce mode de placement.
 - `CuratorScene` est en place comme scene 3D non AR avec controle mobile par gizmo UI + gyro.
 - Dans `CuratorScene`, `Main Camera` est enfant du `PlayerPrefab` (rattachee a `CameraPlace`) et porte `GyroCamera`.
 - `MoveGizmo` est une `Image` UI (raycast target actif) dans un `Canvas` screen-space avec `GraphicRaycaster`.
@@ -73,8 +79,10 @@ Date de mise a jour: 2026-03-26
 Fichier: `Assets/Scripts/TargetHandler.cs`
 
 - `args.added` declenche `TryPlaceAnchorAndContent(img)`.
-- `args.updated` ajuste en continu la pose de l'ancre deja placee.
-- Placement actuel volontairement non strict sur `TrackingState.Tracking` pour privilegier l'affichage rapide.
+- `args.updated` ajuste en continu la pose de l'ancre deja placee via la meme logique "upright + yaw" que le placement initial.
+- `GetUprightYawRotation(ARTrackedImage img)` projette un axe de l'image trackee sur le plan horizontal (`Vector3.up`) puis reconstruit une rotation debout avec `Quaternion.LookRotation(...)`.
+- Le placement initial cree l'ancre avec `img.pose.position` et la rotation reconstruite, au lieu de recopier `img.pose.rotation`.
+- Le comportement actuel est valide pour des image targets physiques posees a plat (content vertical + yaw de l'image).
 - `placed` sert de garde simple pour eviter de replacer un meme target key.
 - L'echelle n'est plus geree dans `TargetHandler` avec une logique locale `PlayerPrefs`; le script s'appuie sur `ScaleAdjustment`.
 
@@ -118,8 +126,9 @@ Structure scene:
 
 ## Risques / points de vigilance
 
-- Strategie actuelle (placement permissif puis correction en `updated`) peut produire un leger "snap" visuel initial.
 - Si beaucoup d'evenements arrivent en rafale, garder un oeil sur une possible duplication rare d'ancre.
+- La reconstruction de yaw depend de l'axe retenu (`img.transform.right`, fallback `img.transform.forward`); si l'orientation visuelle d'une target change, un offset fixe ou un autre axe pourra etre necessaire.
+- Le comportement "upright" actuel est adapte aux image targets posees a plat; si des targets murales sont introduites plus tard, il faudra revalider la strategie de rotation.
 - Si Android/iOS repassent sur un profil qualite trop bas, le skinning peut redevenir degrade (weight paint non respecte).
 - La direction lumiere manuelle depend du bon wiring UI (`OnValueChanged`) si pilotage par slider.
 - Sur iOS (ARKit world tracking), la direction de lumiere estimee peut etre indisponible selon device/contexte; garder un fallback manuel.
@@ -142,28 +151,30 @@ Structure scene:
 3. Revenir a `EntryScene` via bouton retour.
 4. Re-entrer dans `ARScene`.
 5. Re-scanner: le content doit reapparaitre et suivre les updates sans erreur Console.
-6. Interagir via raycast: seules les cibles du layer `Raycast` doivent reagir.
-7. Verifier `RectangularSculpture`: deformation fluide (pas d'effet "rigide" des vertices).
-8. Verifier la persistance d'echelle:
+6. Verifier qu'un content associe a une target posee a plat reste vertical tout en conservant le yaw de la target.
+7. Verifier l'absence de snapping visible au premier placement et pendant les `updated`.
+8. Interagir via raycast: seules les cibles du layer `Raycast` doivent reagir.
+9. Verifier `RectangularSculpture`: deformation fluide (pas d'effet "rigide" des vertices).
+10. Verifier la persistance d'echelle:
    - premier scan d'un content: valeur par defaut `0.5`,
    - changement target A -> B -> A: la valeur de A est conservee,
    - slider au minimum: le content reste visible (echelle >= `0.1`).
-9. Verifier le flux UI refactorise:
+11. Verifier le flux UI refactorise:
    - detection content: burger visible, panneau details ferme par defaut,
    - clic burger: cartel + sliders visibles,
    - perte de content au raycast: menu masque,
    - nouveau content: burger de nouveau cliquable avec infos du nouvel objet.
-10. Verifier `EntryScene` (mode gyro decoratif):
+12. Verifier `EntryScene` (mode gyro decoratif):
    - sur device compatible: la camera suit l'attitude (`AttitudeSensor`),
    - sans capteur (ou capteur indisponible): fallback immobile sur vue initiale,
    - pas d'erreur Console a l'entree/sortie de scene (Enable/Disable).
-11. Verifier `CuratorScene`:
+13. Verifier `CuratorScene`:
    - drag `MoveGizmo` vertical -> avance/recul,
    - drag `MoveGizmo` horizontal -> lateral + yaw fallback (sans gyro),
    - mode gyro actif -> yaw player aligne sur camera sans mouvement parasite,
    - relachement drag -> vitesse gizmo revient a zero,
    - pas d'erreur Console.
-12. Verifier le telechargement des image targets:
+14. Verifier le telechargement des image targets:
    - Android: clic bouton -> telechargement visible dans `Downloads`,
    - iPhone: clic bouton -> share sheet native ouverte apres telechargement,
    - options `Imprimer` et/ou `Enregistrer dans Fichiers` disponibles selon device/contexte,

@@ -49,8 +49,25 @@ public class TargetHandler : MonoBehaviour
             string key = img.referenceImage.guid.ToString();
             if (!placed.Contains(key)) continue;
 
-            AdjustAnchor(key, img.transform.position, img.transform.rotation);
+            AdjustAnchor(key, img);
         }
+    }
+
+    private Quaternion GetUprightYawRotation(ARTrackedImage img)
+    {
+        Vector3 yawSource = Vector3.ProjectOnPlane(img.transform.right, Vector3.up);
+
+        if (yawSource.sqrMagnitude < 0.0001f)
+        {
+            yawSource = Vector3.ProjectOnPlane(img.transform.forward, Vector3.up);
+        }
+
+        if (yawSource.sqrMagnitude < 0.0001f)
+        {
+            yawSource = Vector3.forward;
+        }
+
+        return Quaternion.LookRotation(yawSource.normalized, Vector3.up);
     }
 
     private async Task TryPlaceAnchorAndContent(ARTrackedImage img)
@@ -62,7 +79,10 @@ public class TargetHandler : MonoBehaviour
 
         await Task.Delay(200);
 
-        var result = await anchorManager.TryAddAnchorAsync(img.pose);
+        // var anchorPose = new Pose(img.pose.position, Quaternion.identity);
+
+        var anchorPose = new Pose(img.pose.position, GetUprightYawRotation(img));
+        var result = await anchorManager.TryAddAnchorAsync(anchorPose);
         if (!result.status.IsSuccess()) return;
 
         ARAnchor anchor = result.value;
@@ -90,12 +110,14 @@ public class TargetHandler : MonoBehaviour
         return false;
     }
 
-    private void AdjustAnchor(string key, Vector3 position, Quaternion rotation)
+    private void AdjustAnchor(string key, ARTrackedImage img)
     {
+        if (img == null) return;
+
         if (TryGetAnchorForContent(key, out ARAnchor anchor))
         {
-            anchor.transform.position = position;
-            anchor.transform.rotation = rotation;
+            anchor.transform.position = img.transform.position;
+            anchor.transform.rotation = GetUprightYawRotation(img);
         }
     }
 
