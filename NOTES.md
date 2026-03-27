@@ -24,6 +24,28 @@ Date de mise a jour: 2026-03-26
 - Le probleme de deformation de `RectangularSculpture` (armature/weight paint non lisse) venait des `QualitySettings` mobiles trop bas.
 - Un script `LightController` est en place pour piloter une `Directional Light` globale depuis `ARCameraManager.frameReceived`.
 - Sur Android, l'estimation automatique de lumiere donne un resultat visuel satisfaisant en l'etat.
+- Le projet reference toujours `Mobile_RPAsset` comme pipeline URP global.
+- Etat actuel de `Mobile_RPAsset` (`Assets/Settings/Mobile_RPAsset.asset`):
+  - `HDR` desactive, `HDR Color Buffer Precision` sur valeur elevee.
+  - `MSAA` a `4x`.
+  - `Render Scale` a `0.6`.
+  - `Main Light Shadowmap Resolution` a `2048`.
+  - `Shadow Distance` a `40`.
+  - `Shadow Cascade Count` a `2`.
+  - `Soft Shadows` activees avec `Soft Shadow Quality` elevee.
+- Etat actuel de la `Directional Light` de `ARScene`:
+  - ombres en mode `Soft`.
+  - `Intensity` a `0.5`.
+  - `Shadow Strength` a `1.0`.
+  - `UniversalAdditionalLightData` avec `Use Pipeline Settings` actif.
+  - `Soft Shadow Quality` locale a `1`.
+  - lumiere pilotee au runtime par `LightController`.
+- Etat actuel de la `Directional Light` de `CuratorScene`:
+  - ombres en mode `Soft`.
+  - `Intensity` a `1.0`.
+  - `Shadow Strength` a `0.77`.
+  - `UniversalAdditionalLightData` avec `Use Pipeline Settings` desactive.
+  - `Soft Shadow Quality` locale a `3`.
 - Le `manual yaw` est pilote par un slider UI normalise (`0..1` -> `0..360`) via `OnValueChanged`.
 - Un souci constate venait d'une reference `OnValueChanged` perdue dans l'Inspector (corrige).
 - La persistance d'echelle des contenus AR est stabilisee:
@@ -101,6 +123,8 @@ Structure scene:
 - Si Android/iOS repassent sur un profil qualite trop bas, le skinning peut redevenir degrade (weight paint non respecte).
 - La direction lumiere manuelle depend du bon wiring UI (`OnValueChanged`) si pilotage par slider.
 - Sur iOS (ARKit world tracking), la direction de lumiere estimee peut etre indisponible selon device/contexte; garder un fallback manuel.
+- Probleme visuel en cours: sur Samsung A26, les ombres restent visuellement tres `hard` en runtime dans `ARScene` malgre `Soft Shadows` activees dans `Mobile_RPAsset` et sur la `Directional Light`.
+- Le rendu plus doux observe dans la vue `Scene` / Inspector n'est donc pas encore reproduit fidelement sur device Samsung A26.
 - Le repo local peut etre dirty pendant iteration; verifier `git status` avant commit final.
 - Le slider reste en plage `0..1`; avec la borne minimale effective `0.1`, la zone `0..0.1` produit la meme echelle visible (comportement volontaire).
 - Le raycast suppose `hit.collider.transform.parent` comme racine content; si la hierarchie prefab change, la selection UI peut cibler le mauvais objet.
@@ -149,12 +173,14 @@ Structure scene:
 
 1. Verifier sur device Android/iOS la qualite active au runtime (quality level + skin weights).
 2. Valider l'eclairage sur iOS et confirmer le comportement du fallback manuel de direction.
-3. Si besoin, forcer une qualite mobile AR explicite au demarrage (sans sur-correction).
-4. Continuer la stabilisation incrementale de `TargetHandler` seulement si un symptome reel reapparait.
-5. Consolider la passe UI actuelle (verif device + Inspector) avant toute retouche ergonomique/visuelle.
-6. Valider le ressenti gyro sur Android et iOS (fluidite, amplitude, confort visuel).
-7. Ajouter un lissage leger anti-jitter dans `GyroCamera` seulement si un symptome reel apparait.
-8. Decider si le snap yaw initial de `CuratorScene` merite un correctif (warmup/calibration) ou reste accepte.
-9. Nettoyer `PlayerController` (`using` inutiles, null checks references Inspector) quand la phase de stabilisation est terminee.
-10. Verifier si les `ActionEvents` historiques du `PlayerInput` (OnMove/OnLook) doivent etre conserves ou supprimes pour eviter ambiguite.
-11. Valider sur iPhone reel le flux `PdfDownloadButton` (share sheet, impression, sauvegarde Fichiers).
+3. Sur Samsung A26, determiner si les hard shadows runtime viennent du `quality level` mobile actif, d'une limite URP mobile/device, ou d'un ecart entre `ARScene` et `CuratorScene`.
+4. Si besoin, forcer une qualite mobile AR explicite au demarrage (sans sur-correction).
+5. Comparer sur device Samsung A26 le rendu de la `Directional Light` de `ARScene` (pipeline settings) et celle de `CuratorScene` (override local) avant toute retouche plus large.
+6. Continuer la stabilisation incrementale de `TargetHandler` seulement si un symptome reel reapparait.
+7. Consolider la passe UI actuelle (verif device + Inspector) avant toute retouche ergonomique/visuelle.
+8. Valider le ressenti gyro sur Android et iOS (fluidite, amplitude, confort visuel).
+9. Ajouter un lissage leger anti-jitter dans `GyroCamera` seulement si un symptome reel apparait.
+10. Decider si le snap yaw initial de `CuratorScene` merite un correctif (warmup/calibration) ou reste accepte.
+11. Nettoyer `PlayerController` (`using` inutiles, null checks references Inspector) quand la phase de stabilisation est terminee.
+12. Verifier si les `ActionEvents` historiques du `PlayerInput` (OnMove/OnLook) doivent etre conserves ou supprimes pour eviter ambiguite.
+13. Valider sur iPhone reel le flux `PdfDownloadButton` (share sheet, impression, sauvegarde Fichiers).

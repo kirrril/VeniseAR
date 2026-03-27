@@ -61,6 +61,8 @@ QualitySettings:
     excludedTargetPlatforms:
     - Android
     - iPhone
+    - Standalone
+    - WebGL
   - serializedVersion: 5
     name: Low
     pixelLightCount: 0
@@ -168,7 +170,9 @@ QualitySettings:
     terrainBillboardStart: 50
     terrainFadeLength: 5
     terrainMaxTrees: 50
-    excludedTargetPlatforms: []
+    excludedTargetPlatforms:
+    - Android
+    - iPhone
   - serializedVersion: 5
     name: High
     pixelLightCount: 2
@@ -221,7 +225,9 @@ QualitySettings:
     terrainBillboardStart: 50
     terrainFadeLength: 5
     terrainMaxTrees: 50
-    excludedTargetPlatforms: []
+    excludedTargetPlatforms:
+    - Android
+    - iPhone
   - serializedVersion: 5
     name: Very High
     pixelLightCount: 3
@@ -291,7 +297,7 @@ QualitySettings:
     globalTextureMipmapLimit: 0
     textureMipmapLimitSettings: []
     anisotropicTextures: 2
-    antiAliasing: 2
+    antiAliasing: 4
     softParticles: 1
     softVegetation: 1
     realtimeReflectionProbes: 1
@@ -317,7 +323,8 @@ QualitySettings:
     asyncUploadBufferSize: 16
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 0}
+    customRenderPipeline: {fileID: 11400000, guid: 5e6cbd92db86f4b18aec3ed561671858,
+      type: 2}
     terrainQualityOverrides: 0
     terrainPixelError: 1
     terrainDetailDensityScale: 1
