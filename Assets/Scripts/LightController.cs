@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 
 [RequireComponent(typeof(ARCameraManager))]
@@ -7,6 +8,8 @@ public class LightController : MonoBehaviour
     [Header("References")]
     [SerializeField] private ARCameraManager cameraManager;
     [SerializeField] private Light directionalLight;
+    [SerializeField] private GameObject lightDirectionPanel;
+    [SerializeField] private Slider manualDirectionSlider;
 
     [Header("Requested Light Estimation")]
     [SerializeField]
@@ -31,10 +34,13 @@ public class LightController : MonoBehaviour
     [SerializeField, Min(0f)] private float colorSmoothing = 8f;
 
     [Header("Direction Fallback")]
-    [SerializeField] private bool forceManualDirection = false;
-    [SerializeField] private bool useManualDirectionWhenUnavailable = true;
     [SerializeField] private Vector3 manualDirectionEuler = new Vector3(50f, -30f, 0f);
     [SerializeField, Min(0f)] private float rotationSmoothing = 8f;
+    [SerializeField, Min(0f)] private float autoDirectionGracePeriod = 1f;
+
+    private bool hasValidMainLightDirection;
+    private bool fallbackManualActive;
+    private float waitingForAutoTimer;
 
     void Reset()
     {
@@ -55,8 +61,13 @@ public class LightController : MonoBehaviour
         cameraManager.requestedLightEstimation |= requestedLightEstimation;
         cameraManager.frameReceived += OnCameraFrameReceived;
 
-        if (forceManualDirection || useManualDirectionWhenUnavailable)
-            ApplyDirection(Quaternion.Euler(manualDirectionEuler), true);
+        directionalLight.enabled = true;
+        hasValidMainLightDirection = false;
+        fallbackManualActive = false;
+        waitingForAutoTimer = 0f;
+
+        RefreshManualUi();
+        SyncSliderWithoutNotify();
     }
 
     void OnDisable()
@@ -65,26 +76,13 @@ public class LightController : MonoBehaviour
             cameraManager.frameReceived -= OnCameraFrameReceived;
     }
 
-    // void Update()
-    // {
-    //     if (!applyDirection || !forceManualDirection || directionalLight == null)
-    //         return;
-
-    //     ApplyDirection(Quaternion.Euler(manualDirectionEuler), false);
-    // }
-
     public void SetManualYaw(float t)
     {
         t = Mathf.Clamp01(t);
         manualDirectionEuler.y = t * 360f;
 
-        // if (forceManualDirection && directionalLight != null)
-        //     ApplyDirection(Quaternion.Euler(manualDirectionEuler), true);
-    }
-
-    public void SetForceManualDirection(bool enabled)
-    {
-        forceManualDirection = enabled;
+        if (!hasValidMainLightDirection && directionalLight != null)
+            ApplyDirection(Quaternion.Euler(manualDirectionEuler), true);
     }
 
     private void OnCameraFrameReceived(ARCameraFrameEventArgs args)
@@ -129,24 +127,58 @@ public class LightController : MonoBehaviour
 
     private void UpdateDirection(ARLightEstimationData estimation)
     {
-        if (forceManualDirection)
+        bool directionAvailable =
+            estimation.mainLightDirection.HasValue &&
+            estimation.mainLightDirection.Value.sqrMagnitude > 0.0001f;
+
+        if (directionAvailable)
         {
-            ApplyDirection(Quaternion.Euler(manualDirectionEuler), false);
+            if (!hasValidMainLightDirection)
+            {
+                hasValidMainLightDirection = true;
+                fallbackManualActive = false;
+                waitingForAutoTimer = 0f;
+                RefreshManualUi();
+            }
+
+            Vector3 dir = estimation.mainLightDirection.Value;
+            ApplyDirection(Quaternion.LookRotation(dir.normalized, Vector3.up), false);
             return;
         }
 
-        if (estimation.mainLightDirection.HasValue)
+        if (hasValidMainLightDirection)
         {
-            Vector3 dir = estimation.mainLightDirection.Value;
-            if (dir.sqrMagnitude > 0.0001f)
-            {
-                ApplyDirection(Quaternion.LookRotation(dir.normalized, Vector3.up), false);
-                return;
-            }
+            hasValidMainLightDirection = false;
+            waitingForAutoTimer = 0f;
+            RefreshManualUi();
         }
 
-        if (useManualDirectionWhenUnavailable)
-            ApplyDirection(Quaternion.Euler(manualDirectionEuler), false);
+        waitingForAutoTimer += Time.deltaTime;
+
+        if (waitingForAutoTimer < autoDirectionGracePeriod)
+            return;
+
+        if (!fallbackManualActive)
+        {
+            fallbackManualActive = true;
+            RefreshManualUi();
+        }
+
+        ApplyDirection(Quaternion.Euler(manualDirectionEuler), false);
+    }
+
+    private void RefreshManualUi()
+    {
+        if (lightDirectionPanel != null)
+            lightDirectionPanel.SetActive(applyDirection && fallbackManualActive && !hasValidMainLightDirection);
+    }
+
+    private void SyncSliderWithoutNotify()
+    {
+        if (manualDirectionSlider == null)
+            return;
+
+        manualDirectionSlider.SetValueWithoutNotify(Mathf.Repeat(manualDirectionEuler.y, 360f) / 360f);
     }
 
     private void ApplyDirection(Quaternion targetRotation, bool immediate)

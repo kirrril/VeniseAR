@@ -5,15 +5,21 @@ using UnityEngine.UI;
 public class AR_UI_manager : MonoBehaviour
 {
     [SerializeField] private Raycast raycast;
-    [SerializeField] private GameObject contentMenu;
     [SerializeField] private GameObject closeSceneButton;
+    [SerializeField] private GameObject contentMenu;
     [SerializeField] private GameObject burgerButton;
     [SerializeField] private GameObject burgerContent;
     [SerializeField] private GameObject closeBurgerButton;
+    [SerializeField] private GameObject optionsHint;
     [SerializeField] private TMP_Text title;
     [SerializeField] private TMP_Text artist;
     [SerializeField] private TMP_Text year;
     [SerializeField] private TMP_Text dimensions;
+    private bool burgerIsOn;
+    private string burgerKey = "burgerOn";
+    private bool displayHint;
+    private string hintKey = "optionsHint";
+
     private string titleText;
     private string artistText;
     private string yearText;
@@ -21,34 +27,69 @@ public class AR_UI_manager : MonoBehaviour
 
     void OnEnable()
     {
-        raycast.SelectionChanged += BurgerOn;
+        raycast.SelectionChanged += GetInfosSwitchMenu;
+
+        contentMenu.SetActive(false);
+
+        burgerIsOn = PlayerPrefs.GetInt(burgerKey, 1) == 1;
+        SwitchMenu();
+
+        displayHint = PlayerPrefs.GetInt(hintKey, 1) == 1;
+        DisplayOptionsHint(displayHint);
     }
 
     void OnDisable()
     {
-        raycast.SelectionChanged -= BurgerOn;
+        raycast.SelectionChanged -= GetInfosSwitchMenu;
     }
 
-    void Start()
+    public void BurgerOnOff()
     {
-        closeSceneButton.SetActive(true);
-        contentMenu.SetActive(false);
+        burgerIsOn = !burgerIsOn;
+        SwitchMenu();
+        PlayerPrefs.SetInt(hintKey, 0);
+        int burgerKeyValue = burgerIsOn ? 1 : 0;
+        PlayerPrefs.SetInt(burgerKey, burgerKeyValue);
+        PlayerPrefs.Save();
+        displayHint = false;
+        DisplayOptionsHint(displayHint);
     }
 
-    private void BurgerOn(GameObject content)
+    public void SwitchMenu()
+    {
+        if (!burgerIsOn)
+        {
+            burgerButton.SetActive(true);
+            burgerContent.SetActive(false);
+            return;
+        }
+        burgerButton.SetActive(false);
+        burgerContent.SetActive(true);
+        title.text = titleText;
+        artist.text = artistText;
+        year.text = yearText;
+        dimensions.text = dimensionsText;
+    }
+
+    private void GetInfosSwitchMenu(GameObject content)
     {
         if (content == null)
         {
             contentMenu.SetActive(false);
+            SwitchMenu();
             return;
         }
-        contentMenu.SetActive(true);
-        burgerButton.SetActive(true);
-        burgerContent.SetActive(false);
         titleText = GetTitle(content.name);
         artistText = GetArtist(content.name);
         yearText = GetYear(content.name);
         dimensionsText = GetDimensions(content.name);
+        contentMenu.SetActive(true);
+        SwitchMenu();
+    }
+
+    private void DisplayOptionsHint(bool doDisplay)
+    {
+        optionsHint.SetActive(doDisplay);
     }
 
     private string GetTitle(string contentName)
@@ -109,23 +150,5 @@ public class AR_UI_manager : MonoBehaviour
             default:
                 return "";
         }
-    }
-
-    public void OnBurgerClick()
-    {
-        burgerButton.SetActive(false);
-        closeBurgerButton.SetActive(true);
-        burgerContent.SetActive(true);
-        title.text = titleText;
-        artist.text = artistText;
-        year.text = yearText;
-        dimensions.text = dimensionsText;
-    }
-
-    public void OnCloseBurgerClick()
-    {
-        burgerButton.SetActive(true);
-        closeBurgerButton.SetActive(false);
-        burgerContent.SetActive(false);
     }
 }

@@ -15,6 +15,8 @@ public class Raycast : MonoBehaviour
         {
             next = hit.collider.transform.parent.gameObject;
         }
+        
+        // SelectionChanged?.Invoke(current);
 
         if (next == current) return;
 

@@ -37,7 +37,7 @@ public class TargetHandler : MonoBehaviour
         }
     }
 
-    async void OnImageDetected(ARTrackablesChangedEventArgs<ARTrackedImage> args)
+    public async void OnImageDetected(ARTrackablesChangedEventArgs<ARTrackedImage> args)
     {
         foreach (var img in args.added.ToList())
         {
@@ -73,25 +73,19 @@ public class TargetHandler : MonoBehaviour
     private async Task TryPlaceAnchorAndContent(ARTrackedImage img)
     {
         if (img == null) return;
-
         string key = img.referenceImage.guid.ToString();
         if (placed.Contains(key)) return;
 
         await Task.Delay(200);
 
         // var anchorPose = new Pose(img.pose.position, Quaternion.identity);
-
+        
         var anchorPose = new Pose(img.pose.position, GetUprightYawRotation(img));
         var result = await anchorManager.TryAddAnchorAsync(anchorPose);
         if (!result.status.IsSuccess()) return;
-
         ARAnchor anchor = result.value;
         if (anchor == null) return;
         imageAnchors[key] = anchor;
-
-        Debug.Log("Image position: " + img.transform.position);
-        Debug.Log("Anchor created at: " + anchor.transform.position);
-
 
         bool contentPlaced = PlaceContent(img.referenceImage.name, anchor.transform);
         if (!contentPlaced) return;

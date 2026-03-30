@@ -29,12 +29,17 @@ public class Debugger : MonoBehaviour
     private void HandleLog(string logString, string stackTrace, LogType type)
     {
         string colorTag = "";
+        string details = logString;
 
         switch (type)
         {
             case LogType.Error:
             case LogType.Exception:
                 colorTag = "<color=red>";
+                if (!string.IsNullOrWhiteSpace(stackTrace))
+                {
+                    details = logString + "\n" + stackTrace;
+                }
                 break;
             case LogType.Warning:
                 colorTag = "<color=orange>";
@@ -44,7 +49,7 @@ public class Debugger : MonoBehaviour
                 break;
         }
 
-        string formattedLog = colorTag + logString + "</color>\n";
+        string formattedLog = colorTag + details + "</color>\n";
         logHistory += formattedLog;
 
         if (logText != null)
