@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ public class TargetHandler : MonoBehaviour
     [SerializeField] ScaleAdjustment scaleAdjstment;
     private HashSet<string> placed = new();
     private Dictionary<string, ARAnchor> imageAnchors = new();
+    public event Action contentWasPlaced;
 
     void OnEnable()
     {
@@ -94,6 +96,7 @@ public class TargetHandler : MonoBehaviour
         Handheld.Vibrate();
 #endif
 
+        contentWasPlaced?.Invoke();
         placed.Add(key);
     }
 

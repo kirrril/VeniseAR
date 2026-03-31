@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: 1f9baac7d138e8f41aff5d7b161ee961
+guid: 0ad7036ecdf2948439f252e08b07e7fe
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Concrete
+    second: {fileID: 2100000, guid: 5ba91263870190b4294b6c5ef556279b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GlossyConcrete
+    second: {fileID: 2100000, guid: f77f36e735af72348a73831ee5b0717a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Red
+    second: {fileID: 2100000, guid: f57694273ac00fb43962b22b6412c7dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White
+    second: {fileID: 2100000, guid: 4366a441679b60348821c02b68730644, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

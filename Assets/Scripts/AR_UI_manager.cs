@@ -5,20 +5,23 @@ using UnityEngine.UI;
 public class AR_UI_manager : MonoBehaviour
 {
     [SerializeField] private Raycast raycast;
+    [SerializeField] private TargetHandler targetHandler;
     [SerializeField] private GameObject closeSceneButton;
     [SerializeField] private GameObject contentMenu;
     [SerializeField] private GameObject burgerButton;
     [SerializeField] private GameObject burgerContent;
     [SerializeField] private GameObject closeBurgerButton;
     [SerializeField] private GameObject optionsHint;
+    [SerializeField] private GameObject targetHint;
     [SerializeField] private TMP_Text title;
     [SerializeField] private TMP_Text artist;
     [SerializeField] private TMP_Text year;
     [SerializeField] private TMP_Text dimensions;
     private bool burgerIsOn;
     private string burgerKey = "burgerOn";
-    private bool displayHint;
-    private string hintKey = "optionsHint";
+    private bool displayOptionsHint;
+    private string optionshintKey = "optionsHint";
+    private bool displayTargetHint;
 
     private string titleText;
     private string artistText;
@@ -28,31 +31,39 @@ public class AR_UI_manager : MonoBehaviour
     void OnEnable()
     {
         raycast.SelectionChanged += GetInfosSwitchMenu;
+        targetHandler.contentWasPlaced += HideTargetHint;
 
         contentMenu.SetActive(false);
 
         burgerIsOn = PlayerPrefs.GetInt(burgerKey, 1) == 1;
         SwitchMenu();
 
-        displayHint = PlayerPrefs.GetInt(hintKey, 1) == 1;
-        DisplayOptionsHint(displayHint);
+        displayOptionsHint = PlayerPrefs.GetInt(optionshintKey, 1) == 1;
+        DisplayOptionsHint(displayOptionsHint);
     }
 
     void OnDisable()
     {
         raycast.SelectionChanged -= GetInfosSwitchMenu;
+        targetHandler.contentWasPlaced -= HideTargetHint;
+    }
+
+    void Start()
+    {
+        displayTargetHint = true;
+        targetHint.SetActive(displayTargetHint);
     }
 
     public void BurgerOnOff()
     {
         burgerIsOn = !burgerIsOn;
         SwitchMenu();
-        PlayerPrefs.SetInt(hintKey, 0);
+        PlayerPrefs.SetInt(optionshintKey, 0);
         int burgerKeyValue = burgerIsOn ? 1 : 0;
         PlayerPrefs.SetInt(burgerKey, burgerKeyValue);
         PlayerPrefs.Save();
-        displayHint = false;
-        DisplayOptionsHint(displayHint);
+        displayOptionsHint = false;
+        DisplayOptionsHint(displayOptionsHint);
     }
 
     public void SwitchMenu()
@@ -90,6 +101,14 @@ public class AR_UI_manager : MonoBehaviour
     private void DisplayOptionsHint(bool doDisplay)
     {
         optionsHint.SetActive(doDisplay);
+    }
+
+    private void HideTargetHint()
+    {
+        if (!displayTargetHint) return;
+        
+        displayTargetHint = false;
+        targetHint.SetActive(displayTargetHint);
     }
 
     private string GetTitle(string contentName)

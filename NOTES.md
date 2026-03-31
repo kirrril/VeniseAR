@@ -1,6 +1,6 @@
 # NOTES.md - Venise_AR_4
 
-Date de mise a jour: 2026-03-27
+Date de mise a jour: 2026-03-31
 
 ## Etat actuel
 
@@ -73,6 +73,19 @@ Date de mise a jour: 2026-03-27
   - `speedX` pour lateral + yaw fallback sans gyro.
 - En mode gyro (`gyroIsOn`), `PlayerController.RotatePlayer()` aligne le yaw du player sur `Camera.main` via `MoveRotation`.
 - Le petit snap de yaw au chargement de `CuratorScene` est toujours observable mais considere non bloquant a ce stade.
+- La configuration Android de diffusion Play a ete preparee pour une premiere distribution:
+  - `companyName` = `kirrril`.
+  - `productName` = `venice_ar_show`.
+  - `applicationIdentifier` Android en minuscules (package final de diffusion).
+  - `AndroidTargetSdkVersion` force a `35`.
+  - signature Android configuree via un keystore custom stocke hors repo.
+- Un premier build Android signe au format `AAB` a ete genere avec succes (`VeniceAR.aab`).
+- Une premiere release `Internal testing` a ete creee dans Google Play Console.
+- Le flux Play de test interne a ete valide sur un telephone Android reel:
+  - ouverture du lien de test,
+  - opt-in testeur,
+  - installation depuis le Play Store,
+  - lancement de l'application confirme.
 
 ## Etat script AR principal
 
@@ -144,6 +157,21 @@ Structure scene:
 - `MoveGizmo`: reset uniquement sur `OnEndDrag`; selon contexte UI multitouch/interruptions, une remise a zero defensive supplementaire peut etre utile.
 - `PdfDownloadButton`: la share sheet iOS n'est validable qu'en build device reel (pas dans l'Editor Unity).
 
+## Memo terminal - scoring images ARCore
+
+Pour rappeler rapidement la procedure terminal de scoring d'images pour `Reference Image Library`:
+
+```powershell
+cd "C:\Users\Admin\Documents\ProjetUnity\Venise_AR_4\Library\PackageCache\com.unity.xr.arcore@3517b4968fe1\Tools~\Windows"
+.\arcoreimg.exe help
+.\arcoreimg.exe eval-img --input_image_path="C:\chemin\vers\image.jpg"
+```
+
+Rappel:
+- utiliser `cd` vers le dossier `Windows`, pas vers le fichier `.exe`.
+- lancer ensuite l'outil avec `.\arcoreimg.exe ...`.
+- viser de preference un score `>= 75` pour une image candidate.
+
 ## Procedure de verification rapide
 
 1. Ouvrir `ARScene`.
@@ -195,3 +223,8 @@ Structure scene:
 11. Nettoyer `PlayerController` (`using` inutiles, null checks references Inspector) quand la phase de stabilisation est terminee.
 12. Verifier si les `ActionEvents` historiques du `PlayerInput` (OnMove/OnLook) doivent etre conserves ou supprimes pour eviter ambiguite.
 13. Valider sur iPhone reel le flux `PdfDownloadButton` (share sheet, impression, sauvegarde Fichiers).
+14. Preparer le build iOS/App Store Connect:
+   - verifier signing/capabilities iOS,
+   - produire un build archive,
+   - viser une premiere diffusion `TestFlight`.
+15. Revenir plus tard sur l'export/import des symboles natifs Android pour ameliorer l'analyse des crashs/ANR Play Console si necessaire.

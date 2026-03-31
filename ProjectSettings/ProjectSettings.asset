@@ -12,12 +12,12 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: Venise_AR_4
+  companyName: kirrril
+  productName: venice_ar_show
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
-  m_ShowUnitySplashScreen: 0
+  m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 0
   m_SplashScreenOverlayOpacity: 1
   m_SplashScreenAnimation: 1
@@ -39,7 +39,9 @@ PlayerSettings:
     y: 0
     width: 1
     height: 1
-  m_SplashScreenLogos: []
+  m_SplashScreenLogos:
+  - logo: {fileID: 21300000, guid: a57071ab903440a4e9d8e7834cc07bf0, type: 3}
+    duration: 2
   m_VirtualRealitySplashScreen: {fileID: 2800000, guid: e0866a3fe6007224a9e3078d831ce6fc,
     type: 3}
   m_HolographicTrackingLossScreen: {fileID: 0}
@@ -171,7 +173,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Android: com.DefaultCompany.Venise_AR_4
+    Android: com.kirrril.venice_ar_show
     Lumin: com.DefaultCompany.Venise_AR_4
     Standalone: com.DefaultCompany.Venise_AR_4
     iPhone: com.DefaultCompany.Venise-AR-4
@@ -183,7 +185,7 @@ PlayerSettings:
   overrideDefaultApplicationIdentifier: 0
   AndroidBundleVersionCode: 1144
   AndroidMinSdkVersion: 30
-  AndroidTargetSdkVersion: 0
+  AndroidTargetSdkVersion: 35
   AndroidPreferredInstallLocation: 1
   AndroidPreferredDataLocation: 1
   aotOptions: 
@@ -277,8 +279,8 @@ PlayerSettings:
   AndroidAllowedArchitectures: -13
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{inproject}: '
-  AndroidKeyaliasName: 
+  AndroidKeystoreName: C:/Users/Admin/Documents/ProjetUnity/Venise_assets/Keystore/venice_ar_upload.keystore
+  AndroidKeyaliasName: venicear_upload
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidEnableArm64MTE: 0
   AndroidBuildApkPerCpuArchitecture: 0
@@ -290,7 +292,7 @@ PlayerSettings:
   AndroidEnableTango: 0
   androidEnableBanner: 1
   androidUseLowAccuracyLocation: 0
-  androidUseCustomKeystore: 0
+  androidUseCustomKeystore: 1
   m_AndroidBanners:
   - width: 320
     height: 180
@@ -306,7 +308,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 0}
+      m_Icon: {fileID: 2800000, guid: cfb0f8dec26bcc945a17e656a26bb848, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
@@ -314,115 +316,115 @@ PlayerSettings:
   - m_BuildTarget: Android
     m_Icons:
     - m_Textures:
-      - {fileID: 2800000, guid: b15ee11232b424d68898398fe3cab2d0, type: 3}
+      - {fileID: 0}
       m_Width: 192
       m_Height: 192
       m_Kind: 0
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: fe689abc1067e4869a58c87d14482078, type: 3}
+      - {fileID: 0}
       m_Width: 144
       m_Height: 144
       m_Kind: 0
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: 827b731c62d8d42c093899fa44179bb2, type: 3}
+      - {fileID: 0}
       m_Width: 96
       m_Height: 96
       m_Kind: 0
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: d85ccead4ae714b0682b281b94267e7f, type: 3}
+      - {fileID: 0}
       m_Width: 72
       m_Height: 72
       m_Kind: 0
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: 6fae8ff752f494bacb3c562bed7dea2d, type: 3}
+      - {fileID: 0}
       m_Width: 48
       m_Height: 48
       m_Kind: 0
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: 98e9bf2eec31e492d858fd08e8223ca4, type: 3}
+      - {fileID: 0}
       m_Width: 36
       m_Height: 36
       m_Kind: 0
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: b15ee11232b424d68898398fe3cab2d0, type: 3}
+      - {fileID: 0}
       m_Width: 192
       m_Height: 192
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: fe689abc1067e4869a58c87d14482078, type: 3}
+      - {fileID: 0}
       m_Width: 144
       m_Height: 144
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: 827b731c62d8d42c093899fa44179bb2, type: 3}
+      - {fileID: 0}
       m_Width: 96
       m_Height: 96
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: d85ccead4ae714b0682b281b94267e7f, type: 3}
+      - {fileID: 0}
       m_Width: 72
       m_Height: 72
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: 6fae8ff752f494bacb3c562bed7dea2d, type: 3}
+      - {fileID: 0}
       m_Width: 48
       m_Height: 48
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: 98e9bf2eec31e492d858fd08e8223ca4, type: 3}
+      - {fileID: 0}
       m_Width: 36
       m_Height: 36
       m_Kind: 1
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: 17890dd0942584ef7b1886ffc15250a1, type: 3}
-      - {fileID: 2800000, guid: 44f5763023bff4d3dbfb13b858cff6ce, type: 3}
+      - {fileID: 2800000, guid: 02a38193c483c8f45967ef0a44403f5e, type: 3}
+      - {fileID: 2800000, guid: cfb0f8dec26bcc945a17e656a26bb848, type: 3}
       m_Width: 432
       m_Height: 432
       m_Kind: 2
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: 2c78137d6929a46249f124bad6c3c8a8, type: 3}
-      - {fileID: 2800000, guid: b4f6488d420d24b3fa919a0d3a53bcf2, type: 3}
+      - {fileID: 2800000, guid: 02a38193c483c8f45967ef0a44403f5e, type: 3}
+      - {fileID: 2800000, guid: 6c9641112d31f2b48a60f83ee93000ba, type: 3}
       m_Width: 324
       m_Height: 324
       m_Kind: 2
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: ad05b3745e8844194bae1994e47cd9b3, type: 3}
-      - {fileID: 2800000, guid: 78781f500fd7e4133b37547cebfe0231, type: 3}
+      - {fileID: 2800000, guid: 02a38193c483c8f45967ef0a44403f5e, type: 3}
+      - {fileID: 2800000, guid: cc905ecaf2b4a804e92e2581d9d0e857, type: 3}
       m_Width: 216
       m_Height: 216
       m_Kind: 2
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: 96655ac7a5e9f46d0af3ba32b5ce1d2c, type: 3}
-      - {fileID: 2800000, guid: 02ad1a4d05ea64249bdee469ef9fe40c, type: 3}
+      - {fileID: 0}
+      - {fileID: 2800000, guid: 286cb2d4fba462949971dda2ec7bdeaf, type: 3}
       m_Width: 162
       m_Height: 162
       m_Kind: 2
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: aebd9fdb8f30d4d18b318f4312877849, type: 3}
-      - {fileID: 2800000, guid: 71bdaccaa006c43bf9b5eaa2ef7bad56, type: 3}
+      - {fileID: 2800000, guid: 02a38193c483c8f45967ef0a44403f5e, type: 3}
+      - {fileID: 2800000, guid: 52c106b435b2133418183b1501684ba0, type: 3}
       m_Width: 108
       m_Height: 108
       m_Kind: 2
       m_SubKind: 
     - m_Textures:
-      - {fileID: 2800000, guid: 7b3a41568325b49058f0f996eb569a3b, type: 3}
-      - {fileID: 2800000, guid: 626c896dc88974a9fb360ba573bb43e5, type: 3}
+      - {fileID: 2800000, guid: 02a38193c483c8f45967ef0a44403f5e, type: 3}
+      - {fileID: 2800000, guid: 0c568bc0d5e490a47970b7f4dcf22422, type: 3}
       m_Width: 81
       m_Height: 81
       m_Kind: 2
@@ -430,119 +432,119 @@ PlayerSettings:
   - m_BuildTarget: iPhone
     m_Icons:
     - m_Textures:
-      - {fileID: 2800000, guid: 50f07d81dcf4c4fbb8b2c326e7d4b6bb, type: 3}
-      m_Width: 1024
-      m_Height: 1024
-      m_Kind: 4
-      m_SubKind: App Store
-    - m_Textures:
-      - {fileID: 2800000, guid: 83a6483f53e5f448a84f14d9e27ee822, type: 3}
-      m_Width: 60
-      m_Height: 60
-      m_Kind: 2
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: b3252f95d1a3a4cd58871ff4716e5d8b, type: 3}
-      m_Width: 40
-      m_Height: 40
-      m_Kind: 2
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: b3252f95d1a3a4cd58871ff4716e5d8b, type: 3}
-      m_Width: 40
-      m_Height: 40
-      m_Kind: 2
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: f9da296bf616b458d98a63f8f7557004, type: 3}
-      m_Width: 20
-      m_Height: 20
-      m_Kind: 2
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: dd034f60ad00b407089fd2248eb2bae0, type: 3}
-      m_Width: 87
-      m_Height: 87
-      m_Kind: 1
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: 753491ea5c3de4f928409d7f8e96b80b, type: 3}
-      m_Width: 58
-      m_Height: 58
-      m_Kind: 1
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: ead39ea5b70b3401090170549ec78dda, type: 3}
-      m_Width: 29
-      m_Height: 29
-      m_Kind: 1
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: 753491ea5c3de4f928409d7f8e96b80b, type: 3}
-      m_Width: 58
-      m_Height: 58
-      m_Kind: 1
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: ead39ea5b70b3401090170549ec78dda, type: 3}
-      m_Width: 29
-      m_Height: 29
-      m_Kind: 1
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: e5d044c008db542bf8371f7e7c91bb50, type: 3}
-      m_Width: 120
-      m_Height: 120
-      m_Kind: 3
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: b36a145ee04964f5a8fbc998f53ad10f, type: 3}
-      m_Width: 80
-      m_Height: 80
-      m_Kind: 3
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: b36a145ee04964f5a8fbc998f53ad10f, type: 3}
-      m_Width: 80
-      m_Height: 80
-      m_Kind: 3
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: b3252f95d1a3a4cd58871ff4716e5d8b, type: 3}
-      m_Width: 40
-      m_Height: 40
-      m_Kind: 3
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: 73c9e6fc8fd374b119e143a8bc52bf28, type: 3}
+      - {fileID: 2800000, guid: cfb688fc16dff6f4f8aa6b0f2be2c124, type: 3}
       m_Width: 180
       m_Height: 180
       m_Kind: 0
       m_SubKind: iPhone
     - m_Textures:
-      - {fileID: 2800000, guid: e5d044c008db542bf8371f7e7c91bb50, type: 3}
+      - {fileID: 2800000, guid: 1d94447bf3a7c214bba39f412581714e, type: 3}
       m_Width: 120
       m_Height: 120
       m_Kind: 0
       m_SubKind: iPhone
     - m_Textures:
-      - {fileID: 2800000, guid: 4cbc9362b367d44d58da2b6146f50c17, type: 3}
+      - {fileID: 2800000, guid: 49c5b5f60979fa141aa791ffefebe9d5, type: 3}
       m_Width: 167
       m_Height: 167
       m_Kind: 0
       m_SubKind: iPad
     - m_Textures:
-      - {fileID: 2800000, guid: 6cb233dc65f0b459daf2ad80d17034da, type: 3}
+      - {fileID: 2800000, guid: 2e3019c8ba550fe408ede106daedf6bb, type: 3}
       m_Width: 152
       m_Height: 152
       m_Kind: 0
       m_SubKind: iPad
     - m_Textures:
-      - {fileID: 2800000, guid: 819aa9af392f0436686712974e387eb9, type: 3}
+      - {fileID: 2800000, guid: 23e19c55f105cbf43aff18789aea1761, type: 3}
       m_Width: 76
       m_Height: 76
       m_Kind: 0
       m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: 1d94447bf3a7c214bba39f412581714e, type: 3}
+      m_Width: 120
+      m_Height: 120
+      m_Kind: 3
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: 5490e8821f1fa1f45b3be0545a541a79, type: 3}
+      m_Width: 80
+      m_Height: 80
+      m_Kind: 3
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: 5490e8821f1fa1f45b3be0545a541a79, type: 3}
+      m_Width: 80
+      m_Height: 80
+      m_Kind: 3
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: bed9d01ae9bf04346a3a1f576c499957, type: 3}
+      m_Width: 40
+      m_Height: 40
+      m_Kind: 3
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: 21f4894ea2535e54c89cd3310fa1d81f, type: 3}
+      m_Width: 87
+      m_Height: 87
+      m_Kind: 1
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: bb965134ab694e74db76892180e144ff, type: 3}
+      m_Width: 58
+      m_Height: 58
+      m_Kind: 1
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: d77e0ee6d2fcf1f4b856f2d9f06211f0, type: 3}
+      m_Width: 29
+      m_Height: 29
+      m_Kind: 1
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: bb965134ab694e74db76892180e144ff, type: 3}
+      m_Width: 58
+      m_Height: 58
+      m_Kind: 1
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: d77e0ee6d2fcf1f4b856f2d9f06211f0, type: 3}
+      m_Width: 29
+      m_Height: 29
+      m_Kind: 1
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: fa644f9f5169f7d43bc2cf8c3953cae9, type: 3}
+      m_Width: 60
+      m_Height: 60
+      m_Kind: 2
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: bed9d01ae9bf04346a3a1f576c499957, type: 3}
+      m_Width: 40
+      m_Height: 40
+      m_Kind: 2
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: bed9d01ae9bf04346a3a1f576c499957, type: 3}
+      m_Width: 40
+      m_Height: 40
+      m_Kind: 2
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: e03868bfca78c9b488d29100007f8c83, type: 3}
+      m_Width: 20
+      m_Height: 20
+      m_Kind: 2
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: 365d6db5e87935b4aa5bf60752b6a86b, type: 3}
+      m_Width: 1024
+      m_Height: 1024
+      m_Kind: 4
+      m_SubKind: App Store
   - m_BuildTarget: VisionOS
     m_Icons:
     - m_Textures: []
@@ -1005,8 +1007,8 @@ PlayerSettings:
       PrivateNetworkClientServer: False
       InternetClientServer: False
       VideosLibrary: False
-      BackgroundMediaPlayback: False
       Objects3D: False
+      InternetClient: True
       RemoteSystem: False
       BlockedChatMessages: False
       PhoneCall: False
@@ -1027,9 +1029,9 @@ PlayerSettings:
       PointOfService: False
       RecordedCallsFolder: False
       Contacts: False
-      InternetClient: True
       Proximity: False
       CodeGeneration: False
+      BackgroundMediaPlayback: False
       EnterpriseAuthentication: False
   metroTargetDeviceFamilies:
     Desktop: False
