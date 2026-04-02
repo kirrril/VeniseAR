@@ -148,10 +148,10 @@ PlayerSettings:
   tvOSBundleVersion: 1.0
   bundleVersion: 11.4.4
   preloadedAssets:
-  - {fileID: 2688964179452341714, guid: 5c725238dfcc5b24cabbf0b194de3653, type: 2}
+  - {fileID: 4800000, guid: e7c77f6eaab324a819efdc13b8125a39, type: 3}
+  - {fileID: 4800000, guid: 6743a50a812740be8c0aa3fccc46fae9, type: 3}
+  - {fileID: 4499521614522529442, guid: 5c725238dfcc5b24cabbf0b194de3653, type: 2}
   - {fileID: 11400000, guid: 324116329e9aaeb4dac3d865efce8740, type: 2}
-  - {fileID: 4800000, guid: c9f956787b1d945e7b36e0516201fc76, type: 3}
-  - {fileID: 4800000, guid: 0945859e5a1034c2cb6dce53cb4fb899, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -176,13 +176,13 @@ PlayerSettings:
     Android: com.kirrril.venice_ar_show
     Lumin: com.DefaultCompany.Venise_AR_4
     Standalone: com.DefaultCompany.Venise_AR_4
-    iPhone: com.DefaultCompany.Venise-AR-4
+    iPhone: com.kirrril.venicearshow
   buildNumber:
     Standalone: 0
     VisionOS: 0
-    iPhone: 0
+    iPhone: 5
     tvOS: 0
-  overrideDefaultApplicationIdentifier: 0
+  overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 1144
   AndroidMinSdkVersion: 30
   AndroidTargetSdkVersion: 35
@@ -432,60 +432,6 @@ PlayerSettings:
   - m_BuildTarget: iPhone
     m_Icons:
     - m_Textures:
-      - {fileID: 2800000, guid: cfb688fc16dff6f4f8aa6b0f2be2c124, type: 3}
-      m_Width: 180
-      m_Height: 180
-      m_Kind: 0
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: 1d94447bf3a7c214bba39f412581714e, type: 3}
-      m_Width: 120
-      m_Height: 120
-      m_Kind: 0
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: 49c5b5f60979fa141aa791ffefebe9d5, type: 3}
-      m_Width: 167
-      m_Height: 167
-      m_Kind: 0
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: 2e3019c8ba550fe408ede106daedf6bb, type: 3}
-      m_Width: 152
-      m_Height: 152
-      m_Kind: 0
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: 23e19c55f105cbf43aff18789aea1761, type: 3}
-      m_Width: 76
-      m_Height: 76
-      m_Kind: 0
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: 1d94447bf3a7c214bba39f412581714e, type: 3}
-      m_Width: 120
-      m_Height: 120
-      m_Kind: 3
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: 5490e8821f1fa1f45b3be0545a541a79, type: 3}
-      m_Width: 80
-      m_Height: 80
-      m_Kind: 3
-      m_SubKind: iPhone
-    - m_Textures:
-      - {fileID: 2800000, guid: 5490e8821f1fa1f45b3be0545a541a79, type: 3}
-      m_Width: 80
-      m_Height: 80
-      m_Kind: 3
-      m_SubKind: iPad
-    - m_Textures:
-      - {fileID: 2800000, guid: bed9d01ae9bf04346a3a1f576c499957, type: 3}
-      m_Width: 40
-      m_Height: 40
-      m_Kind: 3
-      m_SubKind: iPad
-    - m_Textures:
       - {fileID: 2800000, guid: 21f4894ea2535e54c89cd3310fa1d81f, type: 3}
       m_Width: 87
       m_Height: 87
@@ -545,6 +491,60 @@ PlayerSettings:
       m_Height: 1024
       m_Kind: 4
       m_SubKind: App Store
+    - m_Textures:
+      - {fileID: 2800000, guid: cfb688fc16dff6f4f8aa6b0f2be2c124, type: 3}
+      m_Width: 180
+      m_Height: 180
+      m_Kind: 0
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: 1d94447bf3a7c214bba39f412581714e, type: 3}
+      m_Width: 120
+      m_Height: 120
+      m_Kind: 0
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: 49c5b5f60979fa141aa791ffefebe9d5, type: 3}
+      m_Width: 167
+      m_Height: 167
+      m_Kind: 0
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: 2e3019c8ba550fe408ede106daedf6bb, type: 3}
+      m_Width: 152
+      m_Height: 152
+      m_Kind: 0
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: 23e19c55f105cbf43aff18789aea1761, type: 3}
+      m_Width: 76
+      m_Height: 76
+      m_Kind: 0
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: 1d94447bf3a7c214bba39f412581714e, type: 3}
+      m_Width: 120
+      m_Height: 120
+      m_Kind: 3
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: 5490e8821f1fa1f45b3be0545a541a79, type: 3}
+      m_Width: 80
+      m_Height: 80
+      m_Kind: 3
+      m_SubKind: iPhone
+    - m_Textures:
+      - {fileID: 2800000, guid: 5490e8821f1fa1f45b3be0545a541a79, type: 3}
+      m_Width: 80
+      m_Height: 80
+      m_Kind: 3
+      m_SubKind: iPad
+    - m_Textures:
+      - {fileID: 2800000, guid: bed9d01ae9bf04346a3a1f576c499957, type: 3}
+      m_Width: 40
+      m_Height: 40
+      m_Kind: 3
+      m_SubKind: iPad
   - m_BuildTarget: VisionOS
     m_Icons:
     - m_Textures: []
@@ -557,6 +557,9 @@ PlayerSettings:
     m_StaticBatching: 1
     m_DynamicBatching: 0
   - m_BuildTarget: Standalone
+    m_StaticBatching: 1
+    m_DynamicBatching: 0
+  - m_BuildTarget: iPhone
     m_StaticBatching: 1
     m_DynamicBatching: 0
   m_BuildTargetShaderSettings: []
@@ -638,7 +641,8 @@ PlayerSettings:
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 0
-  cameraUsageDescription: AR Camera
+  cameraUsageDescription: The camera is used to detect exhibition targets and display
+    augmented reality content.
   locationUsageDescription: 
   microphoneUsageDescription: 
   bluetoothUsageDescription: 
@@ -996,6 +1000,7 @@ PlayerSettings:
   syncCapabilities: 0
   platformCapabilities:
     WindowsStoreApps:
+      EnterpriseAuthentication: False
       OfflineMapsManagement: False
       HumanInterfaceDevice: False
       Location: False
@@ -1008,7 +1013,6 @@ PlayerSettings:
       InternetClientServer: False
       VideosLibrary: False
       Objects3D: False
-      InternetClient: True
       RemoteSystem: False
       BlockedChatMessages: False
       PhoneCall: False
@@ -1030,9 +1034,9 @@ PlayerSettings:
       RecordedCallsFolder: False
       Contacts: False
       Proximity: False
+      InternetClient: True
       CodeGeneration: False
       BackgroundMediaPlayback: False
-      EnterpriseAuthentication: False
   metroTargetDeviceFamilies:
     Desktop: False
     Holographic: False

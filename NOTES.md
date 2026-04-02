@@ -1,6 +1,6 @@
 # NOTES.md - Venise_AR_4
 
-Date de mise a jour: 2026-03-31
+Date de mise a jour: 2026-04-01
 
 ## Etat actuel
 
@@ -86,6 +86,12 @@ Date de mise a jour: 2026-03-31
   - opt-in testeur,
   - installation depuis le Play Store,
   - lancement de l'application confirme.
+- La preparation iOS/App Store Connect a ete menee jusqu'au premier envoi TestFlight:
+  - app creee dans App Store Connect avec un bundle iOS dedie,
+  - export Xcode Unity iOS regenere proprement (`Unity-iPhone.xcodeproj`) apres un premier export corrompu cote nom de projet,
+  - archive Xcode produite avec succes sur MacInCloud,
+  - upload `App Store Connect` termine avec succes,
+  - invitation `TestFlight Internal Testing` recue et installation sur iPhone confirmee.
 
 ## Etat script AR principal
 
@@ -223,8 +229,9 @@ Rappel:
 11. Nettoyer `PlayerController` (`using` inutiles, null checks references Inspector) quand la phase de stabilisation est terminee.
 12. Verifier si les `ActionEvents` historiques du `PlayerInput` (OnMove/OnLook) doivent etre conserves ou supprimes pour eviter ambiguite.
 13. Valider sur iPhone reel le flux `PdfDownloadButton` (share sheet, impression, sauvegarde Fichiers).
-14. Preparer le build iOS/App Store Connect:
-   - verifier signing/capabilities iOS,
-   - produire un build archive,
-   - viser une premiere diffusion `TestFlight`.
-15. Revenir plus tard sur l'export/import des symboles natifs Android pour ameliorer l'analyse des crashs/ANR Play Console si necessaire.
+14. Demarrer le debug iOS sur iPhone via le build installe par `TestFlight`:
+   - verifier lancement reel,
+   - identifier les eventuels ecarts iOS vs Android,
+   - prioriser les correctifs bloquants avant ouverture a des testeurs externes.
+15. Ouvrir ensuite un groupe `TestFlight External Testing` si le build iPhone est juge presentable pour le client.
+16. Revenir plus tard sur l'export/import des symboles natifs Android pour ameliorer l'analyse des crashs/ANR Play Console si necessaire.
